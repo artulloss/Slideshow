@@ -1,5 +1,6 @@
 import ImageSlideElement from "./imageSlideElement";
 import TextSlideElement from "./textSlideElement";
+import { assert } from "./utils";
 
 export default function createSlideElement(encodedSlideElement: EncodedSlideElement) {
     const { type, top, left, width, height, zIndex, element, text, src } = encodedSlideElement; 
