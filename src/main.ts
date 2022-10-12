@@ -1,15 +1,48 @@
-import ImageSlideElement from './imageSlideElement';
-import Slide from './slide';
-import SlideElement from './slideElement';
-import './style.css'
-import TextSlideElement from './textSlideElement';
+import ImageSlideElement from "./imageSlideElement";
+import Slide from "./slide";
+import SlideElement from "./slideElement";
+import createSlideElement from "./slideElementFactory";
+import "./style.css";
+import TextSlideElement from "./textSlideElement";
 
 // Internal state
 
 let currentSlide = 0;
-let slides: Slide[] = [];
+let slides: Slide[] = [
+  {
+    active: true,
+    backgroundImage: null,
+    slideElements: [
+      {
+        type: "text",
+        top: 0,
+        left: 0,
+        width: 100,
+        height: 100,
+        zIndex: 1,
+        element: document.createElement("h1"),
+        text: "Hello World",
+      } as EncodedSlideElement,
+    ],
+  },
+].map((slide) => {
+  //slide.slideElements.map(slideElement => {})
+  const slideDiv = document.createElement("div");
+  slideDiv.classList.add("slide");
+  const childrenElements = slide.slideElements.map((slideElement) => {
+    return createSlideElement(slideElement);
+  });
+  return new Slide(
+    slide.active,
+    childrenElements,
+    slideDiv,
+    slide.backgroundImage
+  );
+});
 
-const slideContainer = document.getElementById('slide__container') as HTMLDivElement;
+const slideContainer = document.getElementById(
+  "slide__container"
+) as HTMLDivElement;
 
 // Navigation
 
@@ -32,29 +65,3 @@ prevBtn.addEventListener("click", () => {
 });
 
 // Slide creation - I'm lazy and I prefer markup so I'm just going to create a bunch of slides in the markup and then grab them from the DOM
-
-const slideDivs = (Array.from(slideContainer.children) as HTMLDivElement[]).map((div, index) => {
-  const slideElements = (Array.from(div.children) as HTMLDivElement[]).map((child: HTMLElement) => {
-    if(child instanceof HTMLImageElement) {
-      return new ImageSlideElement(
-        0,0,0,0,1,
-        child.src,
-        child
-      );
-    } else if (
-      child instanceof HTMLHeadingElement || 
-      child instanceof HTMLParagraphElement
-    ) {
-      return new TextSlideElement(
-        0,0,0,0,1,
-        child.innerText,
-        child
-      );
-    }
-    else {
-      console.log(child);
-      throw new Error("Unknown slide element");
-    }
-  });
-  return new Slide(index === currentSlide, slideElements, div);
-});

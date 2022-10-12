@@ -10,7 +10,7 @@ export default class ImageSlideElement extends SlideElement {
         height: number,
         zIndex: number,
         src: string,
-        element: HTMLDivElement
+        element: HTMLElement
     ) {
         super(top, left, width, height, zIndex, element);
         this.src = src;

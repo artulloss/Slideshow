@@ -10,7 +10,7 @@ export default class TextSlideElement extends SlideElement {
     height: number,
     zIndex: number,
     text: string,
-    element: HTMLDivElement
+    element: HTMLElement
   ) {
     super(top, left, width, height, zIndex, element);
     this.text = text;

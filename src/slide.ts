@@ -4,14 +4,30 @@ export default class Slide {
   private _active!: boolean;
   private _slideElements!: SlideElement[];
   private _element: HTMLDivElement;
+  private _backgroundImage!: string | null;
 
-  constructor(active: boolean, slideElements: SlideElement[], element: HTMLDivElement) {
+  constructor(
+    active: boolean,
+    slideElements: SlideElement[],
+    element: HTMLDivElement,
+    backgroundImage: string | null
+  ) {
     this.active = active;
+    this.backgroundImage = backgroundImage;
     this._slideElements = slideElements;
     this._element = element;
   }
 
-  public get active() {
+  public set backgroundImage(value: string | null) {
+    this._element.style.backgroundImage = value ? `url(${value})` : "none";
+    this._backgroundImage = value;
+  }
+
+  public get backgroundImage(): string | null {
+    return this._backgroundImage;
+  }
+
+  public get active(): boolean {
     return this._active;
   }
 
@@ -20,7 +36,7 @@ export default class Slide {
     this._active = value;
   }
 
-  public get slideElements() {
+  public get slideElements(): SlideElement[] {
     return this._slideElements;
   }
 }
