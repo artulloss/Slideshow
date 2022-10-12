@@ -1,9 +1,5 @@
-import ImageSlideElement from "./imageSlideElement";
 import Slide from "./slide";
-import SlideElement from "./slideElement";
-import createSlideElement from "./slideElementFactory";
 import "./style.css";
-import TextSlideElement from "./textSlideElement";
 
 // Internal state
 

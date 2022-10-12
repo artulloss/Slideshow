@@ -1,20 +1,15 @@
-import SlideElement from "./slideElement";
-
 export default class Slide {
   private _active!: boolean;
-  private _slideElements!: SlideElement[];
   private _element: HTMLDivElement;
   private _backgroundImage!: string | null;
 
   constructor(
     active: boolean,
-    slideElements: SlideElement[],
     element: HTMLDivElement,
     backgroundImage: string | null
   ) {
     this.active = active;
     this.backgroundImage = backgroundImage;
-    this._slideElements = slideElements;
     this._element = element;
   }
 
@@ -36,7 +31,7 @@ export default class Slide {
     this._active = value;
   }
 
-  public get slideElements(): SlideElement[] {
-    return this._slideElements;
+  public get slideElements(): HTMLDivElement[] {
+    return this._element.children as unknown as HTMLDivElement[];
   }
 }
