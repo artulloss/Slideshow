@@ -16,15 +16,16 @@
   </head>
   <body>
     <div class="app">
-      <div id="slide__container">
+      <div class="slide__container">
 
+        <!-- Todo move these into ts, and nest under navigation div -->
+        <button id="prev">
+          <ion-icon name="chevron-back-outline"></ion-icon>
+        </button>
+        <button id="next">
+          <ion-icon name="chevron-forward-outline"></ion-icon>
+        </button>
       </div>
-      <button id="next">
-        <ion-icon name="chevron-forward-outline"></ion-icon>
-      </button>
-      <button id="prev">
-        <ion-icon name="chevron-back-outline"></ion-icon>
-      </button>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

@@ -24,40 +24,84 @@ body {
   font-weight: inherit;
   color: inherit;
   background-color: inherit;
+  overflow: hidden;
 }
 
+body,
 .app,
-#slide__container,
-.slide,
-.slide__content {
+.slide__container,
+.slide {
   width: 100vw;
-  height: 100%;
+  height: 100vh;
 }
 
-.slide__content {
-  position: relative;
-}
-
-.slide__content * {
+.slide__container .slide {
   position: absolute;
+  transition: 1s ease-in-out;
+}
+
+.slide__container .slide.active,
+.slide__container .slide.slide.previous_active {
+  z-index: 1;
+}
+
+.slide__container--forward .slide {
+  transform: translateX(100%);
+}
+
+.slide__container--backward .slide {
+  transform: translateX(-100%);
+}
+
+.slide__container--forward .slide.active {
+  transform: translate(0%);
+}
+
+.slide__container--forward .slide.previous_active {
+  transform: translate(-100%);
+}
+
+.slide__container--backward .slide.active {
+  transform: translate(0%);
+}
+
+.slide__container--backward .slide.previous_active {
+  transform: translate(100%);
 }
 
 ion-icon {
   font-size: 4em;
 }
 
-#next {
-  position: absolute;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-}
-
+#next,
 #prev {
   position: absolute;
   top: 50%;
-  left: 0;
   transform: translateY(-50%);
+  z-index: 2;
+  opacity: 0.5;
+}
+
+#next {
+  right: 0;
+}
+
+#prev {
+  left: 0;
+}
+
+#next:hover,
+#next:focus,
+#prev:hover,
+#prev:focus {
+  outline: 3px solid #7fff66ad;
+  opacity: 1;
+}
+
+#next:disabled,
+#prev:disabled {
+  outline: none !important;
+  opacity: 0.5 !important;
 }
 
 @media (prefers-color-scheme: light) {
