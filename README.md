@@ -6,11 +6,19 @@ Please execute the following command to install the package.
 npm install
 ```
 
-Then, please execute the following command to run the application.
+Then, please execute the following command to run the application in production.
 
 ```bash
+npm run build
 npm run preview
 ```
+
+For development purposes, and viewing source maps, please execute the following command.
+
+```bash
+npm run dev
+```
+
 
 # License
 
