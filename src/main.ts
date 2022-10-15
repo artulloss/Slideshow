@@ -1,5 +1,5 @@
 import Slide from "./slide";
-import "./style.css";
+import "./style.pcss";
 
 export enum Direction {
   FORWARD,

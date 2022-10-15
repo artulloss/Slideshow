@@ -11,7 +11,6 @@ export default class Slide {
     this._element = element;
     this.active = active;
     this.isPrevious = isPrevious;
-    console.log("this.isPrevious", this.isPrevious);
   }
 
   public get active(): boolean {
@@ -19,13 +18,12 @@ export default class Slide {
   }
 
   public set active(value: boolean) {
-    this._element.classList.toggle("active", value);
+    this._element.classList.toggle("slide--active", value);
     this._active = value;
   }
 
   public set isPrevious(value: boolean) {
-    console.log("isPrevious", value);
-    this._element.classList.toggle("previous_active", value);
+    this._element.classList.toggle("slide--previous_active", value);
     this._isPrevious = value;
   }
 
