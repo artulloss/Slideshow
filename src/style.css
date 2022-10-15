@@ -124,6 +124,11 @@ ion-icon {
   opacity: 0.2 !important;
 }
 
+button {
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     --background-color: #fff;
