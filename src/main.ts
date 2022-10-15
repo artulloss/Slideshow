@@ -97,7 +97,6 @@ class SlideShow {
     }
     this.previousSlide = this.currentSlide;
     this.currentSlide = value % this.slides.length;
-    const { currentSlide, previousSlide } = this;
     this.render(direction);
     const next = this.slideContainer.querySelector(
       ".slide__navigation__container__next"
