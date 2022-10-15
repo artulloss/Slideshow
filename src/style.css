@@ -1,4 +1,5 @@
 :root {
+  --background-color: #242424;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
@@ -6,7 +7,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  background-color: var(--background-color);
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -35,9 +36,28 @@ body,
   height: 100vh;
 }
 
+.slide__container {
+  display: none;
+}
+
+.slide__container--loaded {
+  display: block;
+}
+
 .slide__container .slide {
   position: absolute;
-  transition: 1s ease-in-out;
+  transition: transform 750ms ease-in-out;
+  background-color: var(--background-color);
+}
+
+.slide__container--initiliazing .slide {
+  transition: none;
+}
+
+.slide__container .slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .slide__container .slide.active,
@@ -70,44 +90,45 @@ body,
 }
 
 ion-icon {
-  font-size: 4em;
+  font-size: clamp(35px, min(10vw, 10vh), 65px);
 }
 
-#next,
-#prev {
+.slide__navigation__container__next,
+.slide__navigation__container__prev {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   z-index: 2;
-  opacity: 0.5;
+  opacity: 0.2;
 }
 
-#next {
+.slide__navigation__container__next {
   right: 0;
 }
 
-#prev {
+.slide__navigation__container__prev {
   left: 0;
 }
 
-#next:hover,
-#next:focus,
-#prev:hover,
-#prev:focus {
+.slide__navigation__container__next:hover,
+.slide__navigation__container__next:focus,
+.slide__navigation__container__prev:hover,
+.slide__navigation__container__prev:focus {
   outline: 3px solid #7fff66ad;
   opacity: 1;
 }
 
-#next:disabled,
-#prev:disabled {
+.slide__navigation__container__next:disabled,
+.slide__navigation__container__prev:disabled {
   outline: none !important;
-  opacity: 0.5 !important;
+  opacity: 0.2 !important;
 }
 
 @media (prefers-color-scheme: light) {
   :root {
+    --background-color: #fff;
     color: #213547;
-    background-color: #ffffff;
+    background-color: var(--background-color);
   }
   a:hover {
     color: #747bff;

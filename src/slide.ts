@@ -1,26 +1,17 @@
 export default class Slide {
   private _active!: boolean;
-  private _element: HTMLDivElement;
-  private _backgroundImage!: string | null;
+  private _element: HTMLElement;
   private _isPrevious = false;
 
   constructor(
-    element: HTMLDivElement,
+    element: HTMLElement,
     active: boolean,
-    backgroundImage: string | null
+    isPrevious: boolean,
   ) {
     this._element = element;
     this.active = active;
-    this.backgroundImage = backgroundImage;
-  }
-
-  public set backgroundImage(value: string | null) {
-    this._element.style.backgroundImage = value ? `url(${value})` : "none";
-    this._backgroundImage = value;
-  }
-
-  public get backgroundImage(): string | null {
-    return this._backgroundImage;
+    this.isPrevious = isPrevious;
+    console.log("this.isPrevious", this.isPrevious);
   }
 
   public get active(): boolean {
@@ -33,6 +24,7 @@ export default class Slide {
   }
 
   public set isPrevious(value: boolean) {
+    console.log("isPrevious", value);
     this._element.classList.toggle("previous_active", value);
     this._isPrevious = value;
   }

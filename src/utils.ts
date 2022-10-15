@@ -12,7 +12,7 @@ export function assert(value: unknown): asserts value {
  * @param immediate 
  * @returns 
  */
-export function debounce(func: () => any, wait: number, immediate: boolean = false) {
+export function debounce(func: (...args: any) => any, wait: number, immediate: boolean = false) {
 	var timeout: number|undefined;
 	return function debounced(this: any, ...args: []) {
 		const context = this;

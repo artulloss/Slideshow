@@ -1,117 +1,125 @@
 import Slide from "./slide";
 import "./style.css";
-import { debounce } from "./utils";
 
 export enum Direction {
   FORWARD,
   BACKWARD,
 }
 
+const ANIMATION_DURATION = 750; // Should match the animation duration in style.css
 class SlideShow {
+  private slideContainer: HTMLDivElement;
+  private slides: Slide[];
+
   private currentSlide = 0;
   private previousSlide = -1;
-  private slideContainer: HTMLDivElement;
-
-  private slides: Slide[];
+  private navigationAllowed = false;
 
   constructor(container: HTMLDivElement) {
     this.slideContainer = container;
-    const nextBtn = document.getElementById("next") as HTMLButtonElement;
-    const prevBtn = document.getElementById("prev") as HTMLButtonElement;
-    nextBtn.addEventListener("click", this.goToNextSlide);
-    prevBtn.addEventListener("click", this.goToPrevSlide);
-    this.slides = [
-      {
-        backgroundImage: "https://picsum.photos/1920/1080",
-      },
-      {
-        backgroundImage: "https://picsum.photos/1920/1081",
-      },
-      {
-        backgroundImage: "https://picsum.photos/1920/1082",
-      },
-      {
-        backgroundImage: "https://picsum.photos/1920/1083",
-      },
-      {
-        backgroundImage: "https://picsum.photos/1920/1085",
-      },
-      {
-        backgroundImage: "https://picsum.photos/1920/1086",
-      },
-      {
-        backgroundImage: "https://picsum.photos/1920/1087",
-      },
-      {
-        backgroundImage: "https://picsum.photos/1920/1088",
-      },
-    ].map(this.parseSlides);
-    document.addEventListener("keydown", debounce((e) => {
-      if (e.key === "ArrowRight" || e.key === "Space") {
-        this.goToNextSlide();
-      } else if (e.key === "ArrowLeft") {
-        this.goToPrevSlide();
-      }
-    }, 1000, true));
-    this.render(Direction.FORWARD);
+    container.classList.add("slide__container--initiliazing");
+    this.slides = Array.from(container.children).map((element, i) => {
+      element.classList.add("slide");
+      return new Slide(
+        element as HTMLElement,
+        i === this.currentSlide,
+        i === container.childElementCount - 1
+      );
+    });
+    this.addNavigation();
+    this.renderDirection(Direction.FORWARD);
+    setTimeout(() => {
+      container.classList.remove("slide__container--initiliazing");
+      container.classList.add("slide__container--loaded");
+      this.navigationAllowed = true;
+    }, ANIMATION_DURATION);
+  }
+
+  /**
+   *
+   * @param direction
+   */
+  private renderDirection(direction: Direction) {
+    this.slideContainer.classList.toggle(
+      "slide__container--forward",
+      direction === Direction.FORWARD
+    );
+    this.slideContainer.classList.toggle(
+      "slide__container--backward",
+      direction === Direction.BACKWARD
+    );
   }
 
   /**
    * Render the current state of the application
    */
   public render = (direction: Direction) => {
-    this.slideContainer.classList.toggle(
-      "slide__container--forward",
-      direction === Direction.FORWARD,
-    );
-    this.slideContainer.classList.toggle(
-      "slide__container--backward",
-      direction === Direction.BACKWARD,
-    );
+    this.renderDirection(direction);
     this.slides.forEach((slide: Slide, i: number) => {
       slide.active = i === this.currentSlide;
       slide.isPrevious = i === this.previousSlide;
     });
   };
 
-  private parseSlides = (slide: EncodedSlide, i: number) => {
-    const slideDiv = document.createElement("div");
-    slideDiv.classList.add("slide");
-    this.slideContainer.appendChild(slideDiv);
-    return new Slide(
-      slideDiv,
-      i === this.currentSlide,
-      slide.backgroundImage
+  private addNavigation = () => {
+    const slideNavigationContainer = document.createElement("div");
+    slideNavigationContainer.classList.add("slide__navigation__container");
+    slideNavigationContainer.innerHTML = `
+      <button class="slide__navigation__container__prev">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+      <button class="slide__navigation__container__next">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+    `;
+    this.slideContainer.appendChild(slideNavigationContainer);
+    const nextBtn = slideNavigationContainer.querySelector(
+      ".slide__navigation__container__next"
     );
+    const prevBtn = slideNavigationContainer.querySelector(
+      ".slide__navigation__container__prev"
+    );
+    nextBtn!.addEventListener("click", this.goToNextSlide);
+    prevBtn!.addEventListener("click", this.goToPrevSlide);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowRight" || e.key === "Space") {
+        this.goToNextSlide();
+      } else if (e.key === "ArrowLeft") {
+        this.goToPrevSlide();
+      }
+    });
   };
 
   public goToSlide = (value: number, direction: Direction) => {
+    if (!this.navigationAllowed) return;
     if (value < 0) {
       value = this.slides.length - 1;
     }
     this.previousSlide = this.currentSlide;
     this.currentSlide = value % this.slides.length;
     const { currentSlide, previousSlide } = this;
-    console.log({ currentSlide, previousSlide });
     this.render(direction);
-    const next = document.querySelector("#next");
-    const prev = document.querySelector("#prev");
+    const next = this.slideContainer.querySelector(
+      ".slide__navigation__container__next"
+    );
+    const prev = document.querySelector(".slide__navigation__container__prev");
     next?.setAttribute("disabled", "true");
     prev?.setAttribute("disabled", "true");
+    this.navigationAllowed = false;
     setTimeout(() => {
       next?.removeAttribute("disabled");
       prev?.removeAttribute("disabled");
-    }, 1000);
+      this.navigationAllowed = true;
+    }, ANIMATION_DURATION);
   };
 
   public goToNextSlide = () => {
     this.goToSlide(this.currentSlide + 1, Direction.FORWARD);
-  }
+  };
 
   public goToPrevSlide = () => {
     this.goToSlide(this.currentSlide - 1, Direction.BACKWARD);
-  }
-
+  };
 }
 
 (
@@ -121,4 +129,3 @@ class SlideShow {
 });
 
 export default SlideShow;
-
