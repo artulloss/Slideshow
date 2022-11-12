@@ -81,7 +81,7 @@ class SlideShow {
     );
     nextBtn!.addEventListener("click", this.goToNextSlide);
     prevBtn!.addEventListener("click", this.goToPrevSlide);
-    document.addEventListener("keydown", (e) => {
+    document.addEventListener("keydown", (e: KeyboardEvent) => {
       if (e.key === "ArrowRight" || e.key === "Space") {
         this.goToNextSlide();
       } else if (e.key === "ArrowLeft") {
