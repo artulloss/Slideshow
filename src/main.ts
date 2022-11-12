@@ -101,7 +101,9 @@ class SlideShow {
     const next = this.slideContainer.querySelector(
       ".slide__navigation__container__next"
     );
-    const prev = document.querySelector(".slide__navigation__container__prev");
+    const prev = this.slideContainer.querySelector(
+      ".slide__navigation__container__prev"
+    );
     next?.setAttribute("disabled", "true");
     prev?.setAttribute("disabled", "true");
     this.navigationAllowed = false;
